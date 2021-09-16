@@ -1,0 +1,24 @@
+mall-service/node_modules
+
+mall-fe/node_modules
+mall-fe/.DS_Store
+mall-fe//dist
+
+# local env files
+mall-fe/.env.local
+mall-fe/.env.*.local
+
+# Log files
+mall-fe/npm-debug.log*
+mall-fe/yarn-debug.log*
+mall-fe/yarn-error.log*
+mall-fe/pnpm-debug.log*
+
+# Editor directories and files
+mall-fe/.idea
+mall-fe/.vscode
+mall-fe/*.suo
+mall-fe/*.ntvs*
+mall-fe/*.njsproj
+mall-fe/*.sln
+mall-fe/*.sw?
