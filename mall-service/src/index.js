@@ -12,3 +12,5 @@ const app = new Koa();
 app.listen(3000, '127.0.0.1', () => {
   console.log('HTTP服务启动成功');
 });
+
+console.log('1234');
