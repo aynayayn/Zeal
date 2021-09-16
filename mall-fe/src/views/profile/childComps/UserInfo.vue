@@ -10,7 +10,7 @@
 
     <div class="info-center">
       <slot name="user-nickname">
-        <div>登录/注册</div>
+        <div @click="clickToJump">登录/注册</div>
       </slot>
       <div class="phone">
         <span>
@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <div class="info-right">
+    <div class="info-right" @click="clickToJump">
       <svg data-v-735ff1be="" fill="#fff" class="arrow-svg">
         <use data-v-735ff1be="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
       </svg>
@@ -32,7 +32,12 @@
 
 <script>
   export default {
-    name: "UserInfo"
+    name: "UserInfo",
+    methods: {
+      clickToJump() {
+        this.$emit('go2auth');
+      }
+    }
   }
 </script>
 

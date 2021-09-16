@@ -3,7 +3,7 @@
     <nav-bar class="nav-bar">
       <div slot="center">个人主页</div>
     </nav-bar>
-    <user-info></user-info>
+    <user-info @go2auth="go2auth"/>
 
     <div class="account-info">
       <div class="account-info-item">
@@ -56,6 +56,11 @@
           {icon: '#service', iconColor: '#fc7b53', info: '我的购物车'},
           {icon: '#download', iconColor: '#fc7b53', info: '下载购物APP'},
         ],
+      }
+    },
+    methods: {
+      go2auth() {
+        this.$router.push('/auth');
       }
     }
   }

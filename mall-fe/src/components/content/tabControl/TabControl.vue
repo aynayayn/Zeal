@@ -67,7 +67,8 @@
     border-bottom: 3px solid var(--color-high-text);
   }*/
   .activeClass {
-    color: var(--color-high-text);
+    color: #000000;
+    font-weight: bold;
   }
   .activeClass span {
     border-bottom: 3px solid var(--color-high-text);
