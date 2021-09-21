@@ -9,7 +9,12 @@ const getDateByTimestamp = (ts) => {
   return date.getDate();
 }
 
+const getRequestBody = (ctx) => {
+  return ctx.request.body || {};
+}
+
 module.exports = {
   getYearByTimestamp,
   getDateByTimestamp,
+  getRequestBody,
 };

@@ -31,22 +31,22 @@
     background-color: #fff;
   }
   .list .list-item {
-    height: 40px;
+    height: 36px;
   }
   .list .list-item .icon {
     position: absolute;
     left: 16px;
 
-    margin-top: 9px;
+    margin-top: 4px;
   }
   .list .list-item .icon svg {
-    width: 18px;
-    height: 18px;
+    width: 14px;
+    height: 14px;
   }
   .list .list-item .info {
     margin-left: 60px;
     font-size: 14px;
-    line-height: 40px;
+    line-height: 36px;
 
     border-bottom: 1px solid rgba(100, 100, 100, .1);
   }

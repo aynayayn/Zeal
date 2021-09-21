@@ -25,9 +25,10 @@
         ref="recommend"></goods-list>
     </scroll>
     <detail-bottom-bar @addCart="showNumberSelect"></detail-bottom-bar>
-    <detail-product-number-ensure v-if="isRenderNumberSelect"
-                                  @ensureNumber="changeCartListState"
-                                  @cancelClick="hideNumSelect"></detail-product-number-ensure>
+    <product-number-ensure v-if="isRenderNumberSelect"
+                           title="商品添加数量"
+                           @ensureNumber="changeCartListState"
+                           @cancelClick="hideNumSelect"></product-number-ensure>
     <back-top
       @click.native="backTopClick"
       v-show="isShowBackTop"></back-top>
@@ -43,7 +44,7 @@
   import DetailParamInfo from "./childComps/DetailParamInfo";
   import DetailCommentInfo from "./childComps/DetailCommentInfo";
   import DetailBottomBar from "./childComps/DetailBottomBar";
-  import DetailProductNumberEnsure from "./childComps/DetailProductNumberEnsure";
+  import ProductNumberEnsure from "components/content/ensureFrame/ProductNumberEnsure";
 
   import Scroll from "components/common/scroll/Scroll";
   import GoodsList from "components/content/goods/GoodsList";
@@ -51,15 +52,14 @@
   // import BackTop from "components/content/backTop/BackTop";
 
   import {getDetail, getRecommend,  GoodsInfo, GoodsParam, Shop} from "network/detail"
-  import {debounce} from "common/utils";
   // 三、只emit一个事件并在不同组件中实现各自不同时段的监听【混入操作】 - 第5处代码
-  import {itemImageLoadListener, backTopClickListener} from "common/mixin";
+  import {itemImageLoadListener, backTopClickListener, setStatusFromStorageWhenUpdate} from "common/mixin";
 
-  import {mapActions} from 'vuex';
+  import { addProductToCartList } from "network/cart";
 
   export default {
     name: "Detail",
-    mixins: [itemImageLoadListener, backTopClickListener],// 三、只emit一个事件并在不同组件中实现各自不同时段的监听【混入操作】 - 第6处代码
+    mixins: [itemImageLoadListener, backTopClickListener, setStatusFromStorageWhenUpdate],// 三、只emit一个事件并在不同组件中实现各自不同时段的监听【混入操作】 - 第6处代码
     data() {
       return {
         iid: null,
@@ -171,9 +171,6 @@
       this.$bus.$off('itemImageLoad', this.itemImageLoad);
     },
     methods: {
-      ...mapActions(['changeCartList']),
-
-
       // 方案1第2处代码
       /*detailInfoImageLoad() {
         // 前面有混入。在混入中，在mounted阶段便将debounce(fresh, delay)的返回值进行了保存
@@ -224,11 +221,16 @@
       },*/
 
       showNumberSelect() {
-        // 1.显示数量选择弹窗，取到要加入购物车的商品数量
-        this.isRenderNumberSelect = true;
+        if(this.$store.getters.currentUser &&this.$store.getters.userToken && this.$store.getters.isLogin) {
+          // 1.显示数量选择弹窗，取到要加入购物车的商品数量
+          this.isRenderNumberSelect = true;
+        }
+        else {
+          this.$router.push('/auth');
+        }
       },
 
-      changeCartListState(counter) {
+      async changeCartListState(counter) {
         this.addToCartNum = counter;
         this.isRenderNumberSelect = false;
 
@@ -240,18 +242,12 @@
         product.desc = this.goodsInfo.desc;
         product.price = this.goodsInfo.realPrice;
         product.count = this.addToCartNum;
+        product.status = false;
 
-        // 3.将商品添加到购物车里边
-        // this.$store.commit(ADD_TO_CART, product);
-        /*this.$store.dispatch('changeCartList', product).then(res => {
-          console.log(res);
-        });*/
-
-        // mapActions中的changeCartList
-        this.changeCartList(product).then(res => {
-          console.log(this.$toast);
-          this.$toast.show(res, 1500);
-        })
+        // 保存到数据库
+        const res = await addProductToCartList(this.$store.getters.currentUser, product);
+        console.log(res);
+        this.$toast.show(res.msg, 2000);
       },
 
       hideNumSelect() {
@@ -269,7 +265,7 @@
       DetailCommentInfo,
       GoodsList,
       DetailBottomBar,
-      DetailProductNumberEnsure,
+      ProductNumberEnsure,
       // BackTop, // 后面使用了混入
     }
   }

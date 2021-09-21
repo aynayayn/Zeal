@@ -3,9 +3,13 @@
     <nav-bar class="nav-bar">
       <div slot="center">个人主页</div>
     </nav-bar>
-    <user-info @go2auth="go2auth"/>
+    <user-info @go2auth="go2auth">
+      <div slot="user-nickname"
+           v-if="ifLogin"
+           class="limitedWidthDiv">{{$store.getters.currentUser}}</div>
+    </user-info>
 
-    <div class="account-info">
+    <div class="account-info" v-if="ifLogin">
       <div class="account-info-item">
         <div class="content">
           <span class="number">0.00</span>元
@@ -27,10 +31,14 @@
     </div>
 
     <list-view :list-data="orderList"
-               class="list-view"></list-view>
+               class="list-view"
+               v-if="ifLogin"></list-view>
 
     <list-view :list-data="serviceList"
-               class="list-view"></list-view>
+               class="list-view"
+               v-if="ifLogin"></list-view>
+
+    <button v-if="ifLogin" @click="exitBtnClick">退出登录</button>
   </div>
 </template>
 
@@ -38,8 +46,11 @@
   import NavBar from "components/common/navbar/NavBar";
   import UserInfo from "./childComps/UserInfo";
   import ListView from "./childComps/ListView";
+  import {setStatusFromStorageWhenUpdate} from "common/mixin";
+
   export default {
     name: "Profile",
+    mixins: [setStatusFromStorageWhenUpdate],
     components: {
       NavBar,
       UserInfo,
@@ -53,15 +64,29 @@
           {icon: '#vip', iconColor: '#fc7b53', info: '会员卡'},
         ],
         serviceList: [
-          {icon: '#service', iconColor: '#fc7b53', info: '我的购物车'},
-          {icon: '#download', iconColor: '#fc7b53', info: '下载购物APP'},
+          {icon: '#service', iconColor: '#fc7b53', info: '重置密码'},
+          {icon: '#service', iconColor: '#fc7b53', info: '注销账号'},
         ],
       }
     },
+    computed: {
+      ifLogin() {
+        return this.$store.getters.isLogin;
+      },
+    },
     methods: {
       go2auth() {
-        this.$router.push('/auth');
-      }
+        this.$router.push('/auth').then(() => {
+          // location.reload(); // 仅是想刷新/auth页面使input自动获得焦点
+        });
+      },
+      exitBtnClick() {
+        //把sessionStorage中的内容清空
+        sessionStorage.removeItem('userName');
+        sessionStorage.removeItem('userToken');
+        this.$router.push('./auth'); //auth有路由守卫，进入之后会把vuex里与用户相关的信息进行更新
+        location.reload(); // 起到清除前面路由的作用
+      },
     }
   }
 </script>
@@ -92,7 +117,7 @@
     justify-content: space-between;
     width: 100%;
 
-    padding: 20px 0;
+    padding: 10px 0;
     background-color: #fff;
   }
   .account-info .account-info-item {
@@ -112,5 +137,21 @@
 
   .list-view {
     margin-top: 10px;
+  }
+
+  button {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #e6e6e6;
+    border-radius: 20px;
+    background: var(--color-high-text);
+    font-weight: bold;
+
+    margin-top: 10px;
+  }
+  .limitedWidthDiv {
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
   }
 </style>

@@ -18,7 +18,7 @@
             <use data-v-735ff1be="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#mobile"></use>
           </svg>
         </span>
-        <span><slot name="user-phone">暂无绑定手机号</slot></span>
+        <span class="text"><slot name="user-phone">暂无绑定手机号</slot></span>
       </div>
     </div>
 
@@ -35,7 +35,9 @@
     name: "UserInfo",
     methods: {
       clickToJump() {
-        this.$emit('go2auth');
+        if(!this.$store.getters.isLogin) {
+          this.$emit('go2auth');
+        }
       }
     }
   }
@@ -66,16 +68,21 @@
   }
 
   .info-center {
-    flex: 1;
+    width: 70%;
     margin-left: 20px;
+    /*第一步(不换行)：white-space:nowrop;（对于连续的数字或者英文字母可省略）*/
+    white-space: nowrap;
+    /*第二步：溢出隐藏*/
+    overflow: hidden;
+    /*第三步：溢出的文本代以省略号*/
+    text-overflow:ellipsis;
 
     color: #fff;
   }
   .info-center .phone {
     position: relative;
 
-    font-size: 13px;
-    margin-top: 5px;
+    margin-top: -4px;
     margin-left: 15px;
     font-weight: 300;
   }
@@ -84,13 +91,19 @@
     width: 12px;
     height: 18px;
     left: -15px;
-    top: 0px;
+    top: 6px;
+  }
+  .info-center .phone .text {
+    font-size: 13px;
   }
 
   /*以下两个样式类进行媒体查询*/
   .info-right {
-    width: 30px;
-    text-align: right;
+    flex: 1;
+    /*flex盒子里再套一个flex盒子*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .info-right .arrow-svg {
     width: 12px;
@@ -106,6 +119,9 @@
     .info-right .arrow-svg {
       width: 12px;
       height: 24px;
+    }
+    .info-center {
+      width: 60%;
     }
   }
 
@@ -140,6 +156,9 @@
       width: 16px;
       height: 32px;
     }
+    .info-center {
+      width: 80%;
+    }
   }
 
   @media screen and (min-width: 1200px) {
@@ -150,6 +169,9 @@
     .info-right .arrow-svg {
       width: 20px;
       height: 40px;
+    }
+    .info-center {
+      width: 80%;
     }
   }
 

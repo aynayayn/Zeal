@@ -7,16 +7,15 @@ import getters from "./getters";
 Vue.use(Vuex);
 
 const state = {
-  /*imgLoadedCount: 0,
-  scrollHeight: 0,*/
-
-  cartList: {},
-}
+  currentUser: null, // 当前用户
+  isLogin: false, // 当前用户是否已经登录
+  token: '', // 用户登陆后由服务端签发的token
+};
 const store = new Vuex.Store({
   state,
   mutations,
   actions,
   getters,
-})
+});
 
 export default store
