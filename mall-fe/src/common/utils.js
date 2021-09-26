@@ -30,8 +30,10 @@ export function formatDate(date, fmt) {
   return fmt;
 };
 
-function padLeftZero (str) {
+export function padLeftZero (str) {
   return ('00' + str).substr(str.length);
 };
+
+
 
 

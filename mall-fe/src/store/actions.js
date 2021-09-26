@@ -1,17 +1,15 @@
-import {ADD_TO_CART} from "./mutations-types";
-import {ADD_COUNT} from "./mutations-types";
+import {SET_USER_AND_TOKEN} from "./mutations-types";
 
 export default {
-  changeCartList(context, payload) {
+  setUserStatus(context, payload) {
     return new Promise((resolve, reject) => {
-      if(payload.iid in context.state.cartList) {
-        context.commit(ADD_COUNT, payload);
-        resolve('当前商品已存在购物车，数量+' + payload.count);
+      if(payload !== null) {
+        context.commit(SET_USER_AND_TOKEN, payload);
+        resolve('用户登录信息保存成功');
       }
-      else{
-        context.commit(ADD_TO_CART, payload);
-        resolve('添加了新的商品');
+      else {
+        resolve('请登录');
       }
-    })
-  }
+    });
+  },
 }

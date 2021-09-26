@@ -1,7 +1,7 @@
 <template>
   <div id="home">
     <nav-bar class="home-nav">
-      <div slot="center">商城首页</div>
+      <div slot="center">商店首页</div>
     </nav-bar>
     <tab-control :titles="['流行','新款','精选']"
                  @tabClick="tabClick"
@@ -46,11 +46,11 @@
   import {getHomeMultidata, getHomeGoods} from "network/home";
   import {debounce} from "common/utils";
   // 三、只emit一个事件并在不同组件中实现各自不同时段的监听【混入操作】 - 第2处代码
-  import {itemImageLoadListener, backTopClickListener} from "common/mixin";
+  import {itemImageLoadListener, backTopClickListener, setStatusFromStorageWhenUpdate} from "common/mixin";
 
   export default {
     name: "Home",
-    mixins: [itemImageLoadListener, backTopClickListener],// 三、只emit一个事件并在不同组件中实现各自不同时段的监听【混入操作】 - 第3处代码
+    mixins: [itemImageLoadListener, backTopClickListener, setStatusFromStorageWhenUpdate],// 三、只emit一个事件并在不同组件中实现各自不同时段的监听【混入操作】 - 第3处代码
     components: {
       Scroll,
       HomeSwiper,

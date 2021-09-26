@@ -52,10 +52,10 @@
   import {getCategories, getSubcategories, getCategoryDetail} from "network/category"
   import {POP, NEW, SELL} from "common/const";
 
-  import {itemImageLoadListener, backTopClickListener} from "common/mixin"
+  import {itemImageLoadListener, backTopClickListener, setStatusFromStorageWhenUpdate} from "common/mixin"
   export default {
     name: "Category",
-    mixins: [itemImageLoadListener, backTopClickListener],
+    mixins: [itemImageLoadListener, backTopClickListener, setStatusFromStorageWhenUpdate],
     components: {
       NavBar,
       SideBarMenu,

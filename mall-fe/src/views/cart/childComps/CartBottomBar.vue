@@ -26,17 +26,24 @@
 
   export default {
     name: "CartBottomBar",
+    props: {
+      detectionList: {
+        type: Array,
+        data() {
+          return undefined;
+        }
+      }
+    },
     data() {
      return {
-       ifCheckAll_data: true,
+       ifCheckAll_data: false,
      }
     },
     methods: {
       changeCheckOfAll() {
-        // 修改cartList中属性的checked值，进而响应式地表现在页面样式上
-        this.$store.commit(CHANGE_CHECK_OF_ALL, !this.ifCheckAll_data);
-        // 其实这里不需要这句，因为把全部的cartList中属性的checked值修改后，computed中的ifCheckAll会进行计算，这样data中的ifCheckAll_data便有了新的正确的值
-        // this.ifCheckAll_data = !this.ifCheckAll_data;
+        if(this.currentUser && this.userToken && this.isLogin) {
+          this.$emit('changeCheckOfAll', !this.ifCheckAll_data);
+        }
       },
       checkSelectedIfEqual0() {
         if(this.checkedProductNumber === 0) {
@@ -45,15 +52,15 @@
       }
     },
     computed: {
-      ...mapGetters(['cartList', 'cartLength']),
+      ...mapGetters(['cartList', 'cartLength','currentUser', 'userToken', 'isLogin']),
       ifCheckAll() {
-        if(this.cartLength === 0) {
+        if(this.detectionList.length === 0) {
           this.ifCheckAll_data = false;
           return false;
         }
         else{
-          for(let key in this.$store.state.cartList) {
-            if(this.$store.state.cartList[key].checked === false) {
+          for(let val of this.detectionList) {
+            if(val.status === false) {
               this.ifCheckAll_data = false;
               return false;
             }
@@ -63,27 +70,14 @@
         }
       },
       totalPrice() {
-        /*return this.$store.state.cartList.filter(item => {
-          return item.checked;
-        }).reduce((total, item) => {
+        return '￥' + this.detectionList.filter(item => item.status).reduce((total, item) => {
           return total + item.price * item.count;
-        }, 0).toFixed(2);*/
-        let total = 0;
-        for (let key in this.$store.state.cartList) {
-          if(this.$store.state.cartList[key].checked) {
-            total += this.$store.state.cartList[key].price * this.$store.state.cartList[key].count;
-          }
-        }
-        return '￥' + total.toFixed(2);
+        }, 0).toFixed(2);
       },
       checkedProductNumber() {
-        let number = 0;
-        for (let key in this.$store.state.cartList) {
-          if(this.$store.state.cartList[key].checked) {
-            number += this.$store.state.cartList[key].count;
-          }
-        }
-        return number;
+        return this.detectionList.filter(item => item.status).reduce((total, item) => {
+          return total + item.count;
+        }, 0);
       }
     },
     components: {
@@ -114,6 +108,8 @@
   .check-all-button {
     width: 22px;
     height: 22px;
+    padding-left: 2px;
+    padding-bottom: 2px;
   }
   .check-all-zone span {
     line-height: 40px;

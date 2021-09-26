@@ -69,3 +69,29 @@ export const  backTopClickListener = {
   }
 };
 
+import {SET_USER_AND_TOKEN} from "../store/mutations-types";
+export const setStatusFromStorageWhenUpdate = {
+  updated() {
+    if(sessionStorage.getItem('userName') && sessionStorage.getItem('userToken')) {
+      const account = sessionStorage.getItem('userName');
+      const token = sessionStorage.getItem('userToken');
+      const info = {account, token};
+      this.$store.commit(SET_USER_AND_TOKEN, info); //这里通过mutations去改就可以了，因为不需要异步的操作
+    }
+    else {
+      this.$store.commit(SET_USER_AND_TOKEN, null);
+    }
+  },
+  activated() {
+    if(sessionStorage.getItem('userName') && sessionStorage.getItem('userToken')) {
+      const account = sessionStorage.getItem('userName');
+      const token = sessionStorage.getItem('userToken');
+      const info = {account, token};
+      this.$store.commit(SET_USER_AND_TOKEN, info); //这里通过mutations去改就可以了，因为不需要异步的操作
+    }
+    else {
+      this.$store.commit(SET_USER_AND_TOKEN, null);
+    }
+  },
+};
+

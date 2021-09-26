@@ -89,11 +89,11 @@
   }
 
   .bar-right .cart {
-    background-color: #ffe817;
-    color: #333;
+    background-color: var(--color-high-text);
+    color: #000000;
   }
 
   .bar-right .buy {
-    background-color: #f69;
+    background-color: #000000;
   }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <scroll class="content" ref="scroll">
-    <cart-list-item v-for="(item,index) in cartList"
+    <cart-list-item v-for="(item,index) in list"
                     :cart-item="item"
                     :key="index">{{item}}</cart-list-item>
   </scroll>
@@ -13,9 +13,17 @@
   import {mapGetters} from 'vuex';
   export default {
     name: "CartList",
-    computed: {
-      ...mapGetters(['cartList']),
+    props: {
+      list: {
+        type: Array,
+        default() {
+          return [];
+        }
+      },
     },
+    /*computed: {
+      ...mapGetters(['cartList']),
+    },*/
     activated() {
       // 页面内容实际变长，但scroll插件的scrollerHeight却未刷新，因此导致页面不能滑动，所以要refresh
       this.$refs.scroll.refresh();
@@ -29,10 +37,15 @@
 
 <style scoped>
   .content {
-    position: relative;
+    /*position: relative;
     margin-top: 44px;
     height: calc(100vh - 44px - 49px - 40px);
+    overflow: hidden;*/
 
-    overflow: hidden;
+    position: absolute;
+    top: 44px;
+    left: 0;
+    right: 0;
+    bottom: 89px;
   }
 </style>
