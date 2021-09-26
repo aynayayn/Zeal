@@ -126,5 +126,7 @@
     color: #000000;
     font-weight: bold;
   }
-
+  .item-info .item-count {
+    box-shadow: 2px 2px 6px #888888;
+  }
 </style>

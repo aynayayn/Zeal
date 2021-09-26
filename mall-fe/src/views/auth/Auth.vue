@@ -20,7 +20,9 @@
     beforeRouteEnter: (to, from, next) => {
       // console.log(from);
       next(vm => {
-        vm.$store.dispatch('setUserStatus', null);
+        vm.$store.dispatch('setUserStatus', null).then(res => {
+          vm.$toast.show(res, 1000);
+        });
       })
     },
     methods: {

@@ -8,7 +8,7 @@ export default {
         resolve('用户登录信息保存成功');
       }
       else {
-        resolve('用户可能已登出，未找到登录信息');
+        resolve('请登录');
       }
     });
   },

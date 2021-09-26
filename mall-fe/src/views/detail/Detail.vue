@@ -195,6 +195,12 @@
         // -this.themeTopYs[index]是负数，this.themeTopYs[index]都是正数
         this.$refs.scroll.scrollTo(0, -this.themeTopYs[index], 200);
       },
+      /* scrollToAndReturnPromise(index) {
+        return new Promise((resolve, reject) => {
+          this.$refs.scroll.scrollTo(0, -this.themeTopYs[index], 200);
+          resolve();
+        });
+      },*/
 
       contentScroll(position) {
         // 1.获取位置的y值

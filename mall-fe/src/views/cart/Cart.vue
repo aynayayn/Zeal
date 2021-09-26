@@ -77,6 +77,12 @@
         }
       });
     },
+    deactivated() {
+      this.$bus.$off('changeCheckState');
+      this.$bus.$off('modifyCount');
+      this.$bus.$off('jumpToDetail');
+      this.$bus.$off('deleteCartItem');
+    },
     computed: {
       ...mapGetters(['currentUser'])
     },

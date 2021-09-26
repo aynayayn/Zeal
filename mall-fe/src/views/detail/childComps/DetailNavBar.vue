@@ -9,7 +9,8 @@
           v-for="(item, index) in titles"
           class="center-content-item"
           @click="itemClick(index)"
-          :class="{activeClass: currentIndex === index}">
+          :key="index"
+          :class="{'activeClass': currentIndex === index}">
           <span>{{item}}</span>
         </div>
       </div>
@@ -28,13 +29,20 @@
       }
     },
     methods: {
-      itemClick(val) {
-        this.currentIndex = val;
-        this.$emit('titleClick', val);
+      itemClick(index) {
+        this.currentIndex = index;
+        this.$emit('titleClick', index);
+        setTimeout(() => {
+          this.currentIndex = index;
+          console.log(this.currentIndex);
+        }, 200);
       },
       backClick() {
         this.$router.back();
-      }
+      },
+      /*setCurrentIndex(val) {
+        this.currentIndex = val;
+      },*/
     },
     components: {
       NavBar,

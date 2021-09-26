@@ -1,6 +1,7 @@
 const Router = require('@koa/router');
 const mongoose = require('mongoose');
 const { getRequestBody } = require('../../helpers/utils')
+const jwt = require('jsonwebtoken');
 
 const Cart = mongoose.model('Cart');
 
@@ -8,6 +9,8 @@ const router = new Router({
   prefix: '/cart',
 });
 router.put('/add', async (ctx) => {
+  /*const {token, product} = getRequestBody(ctx);
+  const account = await jwt.verify(token, 'zeal');*/
   const {account, product} = getRequestBody(ctx);
   let haveThisProduct = false;
 
@@ -79,7 +82,7 @@ router.get('/list', async (ctx) => {
     else {
       ctx.body = {
         code: 0,
-        msg: '用户不存在',
+        msg: '当前用户暂无购物车列表',
         data: null,
       }
     }
@@ -122,7 +125,7 @@ router.put('/setStatus', async(ctx) => {
 
 router.put('/setStatusOfAll', async(ctx) => {
   const {account, status} = getRequestBody(ctx);
-  const res = await Cart.update({
+  const res = await Cart.updateMany({
     accountName: account
   }, {$set: {"cartList.$[].status": status}}, {multi:true});
   ctx.body = {

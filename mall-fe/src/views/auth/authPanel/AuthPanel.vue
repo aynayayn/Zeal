@@ -12,7 +12,7 @@
     <div class="form" v-if="isRegisterPlate" key="register">
       <input id="registerAccount" ref="registerAccount" class="account" type="text" placeholder="手机号/邮箱" v-model="registerAccount" autofocus>
       <input class="password" type="password" placeholder="密码" v-model="registerPassword">
-      <input class="repeatpsw" type="text" placeholder="再次输入密码" v-model="repeatRegisterPassword">
+      <input class="repeatpsw" type="password" placeholder="再次输入密码" v-model="repeatRegisterPassword">
       <button @click="registerBtnClick">注册</button>
     </div>
   </div>

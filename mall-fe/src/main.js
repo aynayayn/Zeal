@@ -8,6 +8,12 @@ import VueLazyLoad from "vue-lazyload";
 
 import toast from 'components/common/toast';
 
+// 全局导航首位实现动态设置网页的title
+router.beforeEach((to, from, next) => {
+  document.title = to.matched[0].meta.title;
+  next();
+});
+
 Vue.config.productionTip = false
 
 // 添加事件总线对象
